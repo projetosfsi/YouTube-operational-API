@@ -2,6 +2,10 @@ FROM php:8.5.11-apache
 
 RUN a2enmod rewrite
 
+# PHP em modo PRODUCAO (display_errors=Off; avisos vao para o log, nunca para o corpo HTTP). Sem php.ini o PHP imprime
+# E_DEPRECATED no corpo e quebra o JSON da primeira requisicao de cada processo.
+RUN cp "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+
 # Copy application files into the container
 COPY . /var/www/html/
 
